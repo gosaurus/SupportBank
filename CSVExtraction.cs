@@ -1,15 +1,15 @@
 ﻿using System.Data.Common;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using System.Linq.Expressions;
 
 class Extraction
 {
-    public static void CSVExtraction()
+    public static List<string> CSVExtraction()
     {
         string filePath =
         @".\Transactions2014.csv";
         StreamReader reader = null;
-        if (File.Exists(filePath))
         {
             reader = new StreamReader(File.OpenRead(filePath));
             List<string> transactions2014List = new List<string>();
@@ -18,6 +18,26 @@ class Extraction
                 var line = reader.ReadLine();
                 transactions2014List.Add(line);
             }
+            return transactions2014List;
+        }
+    }
+    
+
+    public static DateOnly formatDate(string stringDate)
+    {
+        DateOnly formattedDate = DateOnly.ParseExact
+        (
+            stringDate,
+            "dd/MM/yyyy",
+            CultureInfo.GetCultureInfo("en-GB")
+        );
+        return formattedDate;
+    }
+
+    public static List<Transaction> MakeTransactionListObjects(List<string> transactions2014List)
+    {
+        List<Transaction> transactionsList = [];
+
             for (var count = 1; count < 5; count++)
             {
                 string transactionRawString = transactions2014List[count];
@@ -25,24 +45,17 @@ class Extraction
                 string[] transactionElements = transactionRawString.Split(','); 
                 {
                     Transaction transaction = new Transaction(count,
-                    transactionElements[0],
+                    formatDate(transactionElements[0]),
                     transactionElements[1],
                     transactionElements[2],
                     transactionElements[3],
                     MoneyMath.MoneyStringToInt(transactionElements[4]));
 
-                    Console.WriteLine(transaction);
-
-
+                    transactionsList.Add(transaction);
                 }
             }
-        }
-        else 
-        {
-            Console.WriteLine("File doesn't exist");
-        }
-    Console.ReadLine();
-    }
 
+        return transactionsList;
+    }
 }
 

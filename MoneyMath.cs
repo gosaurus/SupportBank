@@ -2,13 +2,9 @@ public class MoneyMath
 {
     public static int MoneyStringToInt(string poundsDisplayed)
     {
-            string regexString = @"\d+(\.{1}\d{2})";
-            new RegexStringValidator(regexString);
-
-            int number = int.Parse(poundsDisplayed.Replace(".", ""));
-            int pence = number * 10;
+            float number = float.Parse(poundsDisplayed);
+            int pence = (int)(number*100);
             return pence;
-    
-       
     }
 }
+
