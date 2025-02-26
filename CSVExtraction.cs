@@ -27,13 +27,31 @@ class Extraction
             // }
             for (var count = 1; count < 5; count++)
             {
-                int id = count;
+                //int id = count;
                 string transactionRawString = transactions2014List[count];
                 Console.WriteLine(transactionRawString, transactions2014List[count]);
-                string[] splitString = transactionRawString.Split(','); 
-                foreach (var element in splitString) //why do we need to do foreach and console.writeline(element) to see each thing in splitString
+                string[] transactionElements = transactionRawString.Split(','); 
+                //foreach (var element in splitString) 
                 {
-                    Console.WriteLine(element);
+                    Transaction transaction = new Transaction(count,
+                    transactionElements[0],
+                    transactionElements[1],
+                    transactionElements[2],
+                    transactionElements[3],
+                    MoneyMath.MoneyStringToInt(transactionElements[4]));
+
+                    Console.WriteLine(transaction);
+
+
+                    // var ageOfOsha = osha.Age;
+
+                    // int id,
+                    // string transactionDate,
+                    // string paidFrom,
+                    // string paidTo,
+                    // string narrative,
+                    // int amountInPence
+
                 }
                 // Transactions.Transaction(id,transactionSplitString);
             }
@@ -44,7 +62,6 @@ class Extraction
         }
     Console.ReadLine();
     }
-
 
 }
 
