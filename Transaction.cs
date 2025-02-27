@@ -19,7 +19,6 @@ public class Transaction
         PaidTo = paidTo;
         Narrative = narrative;
         AmountInPence = amountInPence;
-
     }
 
     public override string ToString()
