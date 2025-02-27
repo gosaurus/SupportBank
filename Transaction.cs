@@ -1,10 +1,5 @@
-using System.Data.Common;
-using System.Reflection;
-//using System.Transaction;
-
 public class Transaction
 {
-    public int Id { get; }
     public DateOnly TransactionDate { get; }
     public string PaidFrom { get; }
     public string PaidTo { get; }
@@ -12,7 +7,6 @@ public class Transaction
     public int AmountInPence { get; }
 
     public Transaction(
-        int id,
         DateOnly transactionDate,
         string paidFrom,
         string paidTo,
@@ -20,7 +14,6 @@ public class Transaction
         int amountInPence
     )
     {
-        Id = id;
         TransactionDate = transactionDate;
         PaidFrom = paidFrom;
         PaidTo = paidTo;
@@ -31,6 +24,6 @@ public class Transaction
 
     public override string ToString()
     {
-        return "Transaction id: " + Id + " Date: " + TransactionDate + " Narrative: " + Narrative + " Amount: " + AmountInPence;
+        return "Transaction Date: " + TransactionDate + " Narrative: " + Narrative + " Amount: " + AmountInPence;
     }
 }
