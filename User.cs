@@ -16,11 +16,6 @@ public class User
         return "Unique User: " + Name;
     }
 
-    
-   
-    // Methods for user
-    // public List<Transaction> TransactionsPaidFrom = new List<Transaction>();
-
     public void getTransactionsPaidFrom(List<Transaction> transactionsList)
     {
         Console.WriteLine($"All transactions paid FROM {this.Name}");
@@ -29,6 +24,18 @@ public class User
         {
             Console.WriteLine(transaction);
         }
+        Console.WriteLine(getTotalPaidFrom(filteredTransactions));
+    }
+
+    public float getTotalPaidFrom(IEnumerable<Transaction> filteredTransactions)
+    {
+        int totalAmountInPencePaidFrom = 0;
+        foreach(var transaction in filteredTransactions)
+        {
+            totalAmountInPencePaidFrom += transaction.AmountInPence;
+        }
+        float totalAmountInPoundsPaidFrom = (float)(totalAmountInPencePaidFrom)/100;
+        return totalAmountInPoundsPaidFrom;
     }
 
     public void getTransactionsPaidTo(List<Transaction> transactionsList)
@@ -40,28 +47,5 @@ public class User
             Console.WriteLine(transaction);
         }
     }
-    // pass in transactions list, User.name
-    // from transactions in transactionsList
-    // where transactison.PaidFrom == this.name
-
-    // public List<Transaction> TransactionPaidTo = new List<Transaction>(); 
 
 }
-
-
-
-// // method - how much money they owe/are owed
-//  //private properties, using shorthand getters
-//     public string teamName { get; }
-//     public string? HomeCourse { get; }
-//     public List<Member>? Members = new List<Member>(); //https://stackoverflow.com/questions/4462921/how-to-create-a-property-for-a-listt
-//     public int? MemberCount { get; } 
-
-//     //constructor
-//     public Team(string teamname, string homeCourse, List<Member> members)
-//     {
-//         teamName = teamname;
-//         HomeCourse = homeCourse;
-//         Members = members;
-//         MemberCount= members.Count;
-//     }

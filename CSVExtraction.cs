@@ -39,6 +39,7 @@ class Extraction
         List<Transaction> transactionsList = [];
 
             for (var count = 1; count < transactions2014List.Count; count++)
+            //for (var count = 1; count < 5; count++)
             {
                 string transactionRawString = transactions2014List[count];
                 string[] transactionElements = transactionRawString.Split(','); 
