@@ -31,7 +31,10 @@ class Program
 
             AllUsersList.Add(user);
             Console.WriteLine(user);
+            user.getTransactionsPaidFrom(transactionsList);
+            user.getTransactionsPaidTo(transactionsList);
         }
+        
 
     }
 }

@@ -20,8 +20,31 @@ public class User
    
     // Methods for user
     // public List<Transaction> TransactionsPaidFrom = new List<Transaction>();
-    // public List<Transaction> TransactionPaidTo = new List<Transaction>(); 
 
+    public void getTransactionsPaidFrom(List<Transaction> transactionsList)
+    {
+        Console.WriteLine($"All transactions paid FROM {this.Name}");
+        var filteredTransactions = from transaction in transactionsList where transaction.PaidFrom == this.Name select transaction;
+        foreach(var transaction in filteredTransactions)
+        {
+            Console.WriteLine(transaction);
+        }
+    }
+
+    public void getTransactionsPaidTo(List<Transaction> transactionsList)
+    {
+        Console.WriteLine($"All transactions paid TO {this.Name}");
+        var filteredTransactions = from transaction in transactionsList where transaction.PaidTo == this.Name select transaction;
+        foreach(var transaction in filteredTransactions)
+        {
+            Console.WriteLine(transaction);
+        }
+    }
+    // pass in transactions list, User.name
+    // from transactions in transactionsList
+    // where transactison.PaidFrom == this.name
+
+    // public List<Transaction> TransactionPaidTo = new List<Transaction>(); 
 
 }
 
