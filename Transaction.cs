@@ -23,6 +23,10 @@ public class Transaction
 
     public override string ToString()
     {
-        return "Transaction Date: " + TransactionDate + " Narrative: " + Narrative + " Amount: " + AmountInPence;
+        return "Transaction Date: " + TransactionDate + 
+                " Paid FROM: " + PaidFrom + 
+                " Paid TO: " + PaidTo + 
+                " Narrative:  " + Narrative + 
+                " Amount (in pence): " + AmountInPence;
     }
 }

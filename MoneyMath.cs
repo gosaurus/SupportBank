@@ -7,7 +7,10 @@ public class MoneyMath
             return pence;
     }
     
-    // public
-    //     float totalAmountInPoundsPaidFrom = (float)(totalAmountInPencePaidFrom)/100;
+    public static float MoneyIntToFloat(int pence)
+    {
+        float pounds = (float)(pence)/100;
+        return pounds;
+    }
 }
 

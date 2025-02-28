@@ -1,71 +1,72 @@
-using System.Runtime.CompilerServices;
 
 class Program
 {
     public static void Main()
     {
-
         var rawTransactionsList = Extraction.CSVExtraction();
 
         var transactionsList = Extraction.MakeTransactionListObjects(rawTransactionsList);
-
-        Dictionary<string,List<Transaction>> usersDictionary = 
-            new Dictionary<string, List<Transaction>>();
-
+        Dictionary<string, User> usersDictionary = [];
 
         foreach(var transaction in transactionsList)
         {
-            if (!usersDictionary.ContainsKey(transaction.PaidFrom))
+            if (!isExistingUser(transaction.PaidFrom, usersDictionary))
             {
-                List<Transaction> uniqueUserTransactionList = [];
-                usersDictionary.Add(transaction.PaidFrom, uniqueUserTransactionList);
-                uniqueUserTransactionList.Add(transaction);
-            }
-            else if (!usersDictionary.ContainsKey(transaction.PaidTo))
-            {
-                List<Transaction> uniqueUserTransactionList = [];
-                usersDictionary.Add(transaction.PaidTo, uniqueUserTransactionList);
-                uniqueUserTransactionList.Add(transaction);
+                usersDictionary = addNewUserToDictionary(transaction.PaidFrom, usersDictionary);
+                usersDictionary[transaction.PaidFrom].TransactionsPaidFrom?.Add(transaction);
             }
             else
             {
-                
-                var uniqueUserTransactionList = usersDictionary[transaction.PaidFrom];
-                uniqueUserTransactionList.Add(transaction);
+                usersDictionary[transaction.PaidFrom].TransactionsPaidFrom?.Add(transaction);
             }
+            if (!isExistingUser(transaction.PaidTo, usersDictionary))
+            {
+                usersDictionary = addNewUserToDictionary(transaction.PaidTo, usersDictionary);
+                usersDictionary[transaction.PaidTo].TransactionsPaidTo?.Add(transaction);
+            }
+            else
+            {
+                usersDictionary[transaction.PaidTo].TransactionsPaidTo?.Add(transaction);
+            }
+         
         }
+
+        foreach (KeyValuePair<string, User> kvp in usersDictionary)
+        {
+            Console.WriteLine(kvp.Key);
+            Console.WriteLine("Transactions paidTO: ");
+            
+            foreach (var transaction in kvp.Value.TransactionsPaidTo)
+            {
+                Console.WriteLine($"\t {transaction}");
+            }
+            Console.WriteLine($"\t TOTAL TRANSACTION PAID TO: £{User.getTotals(kvp.Value.TransactionsPaidTo)}");
+            Console.WriteLine("Transactions paidFROM: ");
+            foreach (var transaction in kvp.Value.TransactionsPaidFrom)
+            {
+                Console.WriteLine($"\t {transaction}");
+            }
+            Console.WriteLine($"\t TOTAL TRANSACTION PAID FROM: £{User.getTotals(kvp.Value.TransactionsPaidFrom)}");
+        }
+        
     }
 
     public static bool isExistingUser (
-        string name, Dictionary<string,
-        List<Transaction>> usersDictionary
+        string name, 
+        Dictionary<string, User> usersDictionary
     )
     {
         return usersDictionary.ContainsKey(name);
     }
+
+    public static Dictionary<string, User> addNewUserToDictionary (
+        string name, 
+        Dictionary<string, User> usersDictionary
+    )
+    {
+        var user = new User(name);
+        usersDictionary.Add(name, user);
+        return usersDictionary;
+    }
 }
-        // List<string> UniqueUserList = [];
-        
-        // foreach(var transaction in transactionsList)
-        // {
-        //     if (!UniqueUserList.Contains(transaction.PaidFrom))
-        //     {
-        //         UniqueUserList.Add(transaction.PaidFrom);
-        //     }
-        //     if (!UniqueUserList.Contains(transaction.PaidTo))
-        //     {
-        //         UniqueUserList.Add(transaction.PaidTo);
-        //     }
-        // }  
-
-        // List<User> AllUsersList = [];
-
-        // foreach(var uniqueUser in UniqueUserList)
-        // {
-        //     var user = new User(uniqueUser);
-
-        //     AllUsersList.Add(user);
-        //     Console.WriteLine(user);
-        //     user.getTransactionsPaidFrom(transactionsList);
-        //     user.getTransactionsPaidTo(transactionsList);
-        // }
+       
