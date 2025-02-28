@@ -34,8 +34,8 @@ public class User
         {
             totalAmountInPencePaidFrom += transaction.AmountInPence;
         }
-        float totalAmountInPoundsPaidFrom = (float)(totalAmountInPencePaidFrom)/100;
-        return totalAmountInPoundsPaidFrom;
+        
+        return MoneyMath.MoneyIntToFloat(totalAmountInPencePaidFrom);
     }
 
     public void getTransactionsPaidTo(List<Transaction> transactionsList)

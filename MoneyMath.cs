@@ -6,5 +6,8 @@ public class MoneyMath
             int pence = (int)(number*100);
             return pence;
     }
+    
+    // public
+    //     float totalAmountInPoundsPaidFrom = (float)(totalAmountInPencePaidFrom)/100;
 }
 
