@@ -10,63 +10,67 @@ class Program
 
         foreach(var transaction in transactionsList)
         {
-            if (!isExistingUser(transaction.PaidFrom, usersDictionary))
+            if (!User.isExistingUser(transaction.PaidFrom, usersDictionary))
             {
-                usersDictionary = addNewUserToDictionary(transaction.PaidFrom, usersDictionary);
-                usersDictionary[transaction.PaidFrom].TransactionsPaidFrom?.Add(transaction);
+                usersDictionary = User.addNewUserToDictionary(name: transaction.PaidFrom, usersDictionary);
+                usersDictionary = User.addTransactionToUser(name: transaction.PaidFrom, usersDictionary, transaction);
             }
             else
             {
-                usersDictionary[transaction.PaidFrom].TransactionsPaidFrom?.Add(transaction);
+                usersDictionary = User.addTransactionToUser(name: transaction.PaidFrom, usersDictionary, transaction);
             }
-            if (!isExistingUser(transaction.PaidTo, usersDictionary))
+            if (!User.isExistingUser(transaction.PaidTo, usersDictionary))
             {
-                usersDictionary = addNewUserToDictionary(transaction.PaidTo, usersDictionary);
-                usersDictionary[transaction.PaidTo].TransactionsPaidTo?.Add(transaction);
+                usersDictionary = User.addNewUserToDictionary(name: transaction.PaidTo, usersDictionary);
+                usersDictionary = User.addTransactionToUser(name: transaction.PaidTo, usersDictionary, transaction);
             }
             else
             {
-                usersDictionary[transaction.PaidTo].TransactionsPaidTo?.Add(transaction);
+                usersDictionary = User.addTransactionToUser(name: transaction.PaidTo, usersDictionary, transaction);
             }
          
         }
 
         foreach (KeyValuePair<string, User> kvp in usersDictionary)
         {
-            Console.WriteLine(kvp.Key);
-            Console.WriteLine("Transactions paidTO: ");
-            
-            foreach (var transaction in kvp.Value.TransactionsPaidTo)
-            {
-                Console.WriteLine($"\t {transaction}");
-            }
-            Console.WriteLine($"\t TOTAL TRANSACTION PAID TO: £{User.getTotals(kvp.Value.TransactionsPaidTo)}");
-            Console.WriteLine("Transactions paidFROM: ");
-            foreach (var transaction in kvp.Value.TransactionsPaidFrom)
-            {
-                Console.WriteLine($"\t {transaction}");
-            }
-            Console.WriteLine($"\t TOTAL TRANSACTION PAID FROM: £{User.getTotals(kvp.Value.TransactionsPaidFrom)}");
+            Console.WriteLine($"{kvp.Key}");
+            User.ListAll(
+                transactionsList: kvp.Value.TransactionsPaidTo,
+                user: kvp,
+                transactionsListName: "paid TO"
+            );
+            User.ListAll(
+                transactionsList: kvp.Value.TransactionsPaidFrom,
+                user: kvp,
+                transactionsListName: "paid FROM"
+            );
         }
         
     }
 
-    public static bool isExistingUser (
-        string name, 
-        Dictionary<string, User> usersDictionary
-    )
+    public static void centre(string text)
     {
-        return usersDictionary.ContainsKey(name);
+        int padLeft = (Console.WindowWidth/2) - (text.Length/2);
+        Console.WriteLine(text.PadLeft(padLeft));
     }
+    // public static bool isExistingUser (
+    //     string name, 
+    //     Dictionary<string, User> usersDictionary
+    // )
+    // {
+    //     return usersDictionary.ContainsKey(name);
+    // }
 
-    public static Dictionary<string, User> addNewUserToDictionary (
-        string name, 
-        Dictionary<string, User> usersDictionary
-    )
-    {
-        var user = new User(name);
-        usersDictionary.Add(name, user);
-        return usersDictionary;
-    }
+    // public static Dictionary<string, User> addNewUserToDictionary (
+    //     string name, 
+    //     Dictionary<string, User> usersDictionary
+    // )
+    // {
+    //     var user = new User(name);
+    //     usersDictionary.Add(name, user);
+    //     return usersDictionary;
+    // }
+
+
 }
        

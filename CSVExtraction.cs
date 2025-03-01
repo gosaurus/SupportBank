@@ -1,4 +1,5 @@
-﻿class Extraction
+﻿using System.Globalization;
+class Extraction
 {
     public static List<string> CSVExtraction()
     {
