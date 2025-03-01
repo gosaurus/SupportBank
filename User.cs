@@ -1,5 +1,7 @@
 
+using System.Collections;
 using System.ComponentModel.Design;
+using System.Reflection.Metadata.Ecma335;
 
 public class User 
 {
@@ -18,15 +20,15 @@ public class User
         return "Unique User: " + Name;
     }
 
-    public static float getTotals(IEnumerable<Transaction> filteredTransactions)
+    public static int getTotals(IEnumerable<Transaction> filteredTransactions)
     {
-        int totalAmountInPencePaidFrom = 0;
+        int totalAmountInPence = 0;
         foreach(var transaction in filteredTransactions)
         {
-            totalAmountInPencePaidFrom += transaction.AmountInPence;
+            totalAmountInPence += transaction.AmountInPence;
         }
         
-        return MoneyMath.MoneyIntToFloat(totalAmountInPencePaidFrom);
+        return totalAmountInPence;
     }
 
     public static bool isExistingUser(
@@ -66,8 +68,7 @@ public class User
     }
 
     public static void printTransactionsForUser(
-        List<Transaction> transactionsList,
-        KeyValuePair<string, User> kvp
+        List<Transaction> transactionsList
     )
     {
         foreach (var transaction in transactionsList)
@@ -75,9 +76,9 @@ public class User
             Console.WriteLine($"\t {transaction}");
         }
     }
-    public static void ListAll(
+    public static void listUserPaidToFromTransactions(
         List<Transaction> transactionsList,
-        KeyValuePair<string, User> user,
+        User user,
         string transactionsListName
     )
     {
@@ -85,11 +86,61 @@ public class User
         {
             Console.WriteLine($"Transactions " + transactionsListName);
             Console.WriteLine($"====================");
-            printTransactionsForUser(transactionsList, user);
-            Console.WriteLine("\nTotal value of transactions" + transactionsListName +
-            $" £{getTotals(transactionsList)}\n");
+            printTransactionsForUser(transactionsList);
+        
+            Console.WriteLine("\nTotal value of transactions " + transactionsListName +
+            $" £{MoneyMath.MoneyIntToFloat(getTotals(transactionsList))}\n");
         }
         else 
-            Console.WriteLine($"{user.Key} has no transactions paid TO.");
+            Console.WriteLine($"{user.Name} has no transactions paid TO.");
+
+    }
+
+    public static void listEverythingForAUser(
+        User user
+    )
+    {
+        Console.WriteLine($"{user.Name}");
+        listUserPaidToFromTransactions(
+            transactionsList: user.TransactionsPaidTo,
+            user: user,
+            transactionsListName: "paid TO"
+        );
+        listUserPaidToFromTransactions(
+            transactionsList: user.TransactionsPaidFrom,
+            user: user,
+            transactionsListName: "paid FROM"
+        );
+        
+        if (userHasTransactions(user))
+        {
+            int paidFrom = getTotals(user.TransactionsPaidFrom);
+            int paidTo = getTotals(user.TransactionsPaidTo);
+            if (paidFrom > paidTo)
+            {
+                int diff = paidFrom - paidTo;
+                Console.WriteLine($"{user.Name} is owed £" +
+                MoneyMath.MoneyIntToFloat(diff));
+            }
+            else if (paidTo > paidFrom)
+            {
+                int diff = paidTo - paidFrom;
+                Console.WriteLine($"{user.Name} owes £" +
+                MoneyMath.MoneyIntToFloat(diff));
+            }
+            else
+                Console.WriteLine($"Amount paid to {paidTo} and amount paid from {paidFrom} is even.");
+        }
+    }
+
+    public static bool userHasTransactions(User user)
+    {
+        if (user.TransactionsPaidFrom.Count > 0 ||
+            user.TransactionsPaidTo.Count > 0)
+            {
+                return true;
+            }
+        else
+            return false; 
     }
 }
