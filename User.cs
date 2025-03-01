@@ -86,8 +86,8 @@ public class User
             Console.WriteLine($"Transactions " + transactionsListName);
             Console.WriteLine($"====================");
             printTransactionsForUser(transactionsList, user);
-            Console.WriteLine($"\nTotal value of transactions {transactionsListName} " +
-            $"£{getTotals(transactionsList)}\n");
+            Console.WriteLine("\nTotal value of transactions" + transactionsListName +
+            $" £{getTotals(transactionsList)}\n");
         }
         else 
             Console.WriteLine($"{user.Key} has no transactions paid TO.");

@@ -53,24 +53,6 @@ class Program
         int padLeft = (Console.WindowWidth/2) - (text.Length/2);
         Console.WriteLine(text.PadLeft(padLeft));
     }
-    // public static bool isExistingUser (
-    //     string name, 
-    //     Dictionary<string, User> usersDictionary
-    // )
-    // {
-    //     return usersDictionary.ContainsKey(name);
-    // }
-
-    // public static Dictionary<string, User> addNewUserToDictionary (
-    //     string name, 
-    //     Dictionary<string, User> usersDictionary
-    // )
-    // {
-    //     var user = new User(name);
-    //     usersDictionary.Add(name, user);
-    //     return usersDictionary;
-    // }
-
 
 }
        
